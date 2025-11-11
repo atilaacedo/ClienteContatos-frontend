@@ -1,7 +1,7 @@
 <template>
   <div class="p-8 ">
   
-    <ClientesTable :clientes="clientes" :loading="loading" @add="handleAdd" @edit="handleEdit" @delete="handleDelete"
+    <ClientesTable :clientes="clientes" :pages="pagesInfo" :loading="loading" @page-change="loadClientes"  @add="handleAdd" @edit="handleEdit" @delete="handleDelete"
       @add-contato="handleAddContato" @edit-contato="handleEditContato" @delete-contato="handleDeleteContato" />
 
     <ClienteDialog v-model:visible="dialogVisible" :cliente="selectedCliente" :mode="dialogMode"
@@ -23,6 +23,7 @@ const apiBase = 'http://localhost:8000/api';
 
 const toast = useToast();
 const clientes = ref([]);
+const pagesInfo = ref({});
 const loading = ref(false);
 
 const dialogVisible = ref(false);
@@ -34,12 +35,18 @@ const contatoDialogMode = ref('create');
 const selectedContato = ref(null);
 const currentClienteId = ref(null);
 
-const loadClientes = async () => {
+const loadClientes = async (page = 1, rows = 5) => {
   loading.value = true;
   try {
-    const response = await fetch(`${apiBase}/reports/clientes-with-contatos`);
+    const response = await fetch(`${apiBase}/reports/clientes-with-contatos?page=${page}&per_page=${rows}`);
     const data = await response.json();
     clientes.value = data.data;
+    pagesInfo.value = {
+      total: data.meta.total,
+      per_page: data.meta.per_page,
+      current_page: data.meta.current_page,
+      last_page: data.meta.last_page
+    };
   } catch (error) {
     
     toast.add({

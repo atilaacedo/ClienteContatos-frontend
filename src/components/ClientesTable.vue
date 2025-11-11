@@ -2,11 +2,15 @@
     <div class="bg-white rounded-lg p-6 shadow">
         <div class="flex justify-between items-center mb-6 ">
             <h2 class="text-2xl font-semibold!">Relatório de Clientes</h2>
-            <Button label="Adicionar Cliente" icon="pi pi-plus" @click="$emit('add')" severity="contrast" 
-            class="gap-2! bg-[#1c1f1b]! rounded-xl! px-3 py-2 text-white"/>
+            <Button label="Adicionar Cliente" icon="pi pi-plus" @click="$emit('add')" severity="contrast"
+                class="gap-2! bg-[#1c1f1b]! rounded-xl! px-3 py-2 text-white" />
         </div>
 
-        <DataTable :value="clientes" :loading="loading" v-model:expandedRows="expandedRows" dataKey="id" stripedRows>
+        <DataTable :value="clientes" :loading="loading" paginator :rows="rows" :rowsPerPageOptions="[5, 10, 20]" lazy
+            @page="onPageChange"
+            paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+            :totalRecords="pages.total" currentPageReportTemplate="{first} to {last} of {totalRecords}"
+            v-model:expandedRows="expandedRows" dataKey="id" stripedRows>
             <Column expander style="width: 3rem" />
 
             <Column field="nome_completo" header="Nome Completo" />
@@ -39,11 +43,9 @@
                 <template #body="{ data }">
                     <div class="flex gap-3">
                         <Button icon="pi pi-pencil" size="small" text rounded @click="$emit('edit', data)"
-                            v-tooltip.top="'Editar'" 
-                            class="text-blue-400!"/>
+                            v-tooltip.top="'Editar'" class="text-blue-400!" />
                         <Button icon="pi pi-trash" size="small" text rounded severity="danger"
-                            @click="confirmDelete(data)" v-tooltip.top="'Excluir'" 
-                            class="text-red-900!"/>
+                            @click="confirmDelete(data)" v-tooltip.top="'Excluir'" class="text-red-900!" />
                     </div>
                 </template>
             </Column>
@@ -120,7 +122,7 @@
             </template>
         </DataTable>
 
-       <ConfirmDialog></ConfirmDialog>
+        <ConfirmDialog></ConfirmDialog>
     </div>
 </template>
 
@@ -131,13 +133,20 @@ import Column from 'primevue/column';
 import Button from 'primevue/button';
 import ConfirmDialog from 'primevue/confirmdialog';
 import { useConfirm } from 'primevue';
-
 const props = defineProps({
     clientes: Array,
-    loading: Boolean
+    loading: Boolean,
+    pages: Object
 });
 
+const rows = ref(5);
+
+const onPageChange = (event) => {
+    rows.value = event.rows;
+    emit('page-change', event.page + 1, event.rows);
+};
 const emit = defineEmits([
+    'page-change',
     'add',
     'edit',
     'delete',
@@ -150,6 +159,7 @@ const confirm = useConfirm();
 
 const expandedRows = ref([]);
 const expandedRowsContatos = ref([]);
+
 const confirmDialogVisible = ref(false);
 const confirmData = ref(null);
 
