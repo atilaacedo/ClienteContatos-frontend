@@ -1,7 +1,8 @@
 <template>
   <div class="p-8 ">
 
-    
+    <Button label="Gerar Relatório em Pdf" icon="pi pi-file-pdf" class="p-button-danger mb-4"
+    @click="openPdfReport"/>
     <ClientesTable :clientes="clientes" :pages="pagesInfo" :loading="loading" @page-change="loadClientes"
       @add="handleAdd" @edit="handleEdit" @delete="handleDelete" @add-contato="handleAddContato"
       @edit-contato="handleEditContato" @delete-contato="handleDeleteContato" />
@@ -35,6 +36,10 @@ const contatoDialogVisible = ref(false);
 const contatoDialogMode = ref('create');
 const selectedContato = ref(null);
 const currentClienteId = ref(null);
+
+const openPdfReport = () => {
+  window.open(`${apiBase}/reports/clientes-with-contatos/pdf`, '_blank');
+};
 
 const loadClientes = async (page = 1, rows = 5) => {
   loading.value = true;
