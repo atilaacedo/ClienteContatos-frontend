@@ -3,7 +3,7 @@
 <template>
   <div>
     <main>
-      <Toast/>
+  
       <RouterView/>
     </main>
   </div>

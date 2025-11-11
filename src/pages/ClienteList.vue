@@ -1,11 +1,13 @@
 <template>
   <div class="p-8 ">
-  
-    <ClientesTable :clientes="clientes" :pages="pagesInfo" :loading="loading" @page-change="loadClientes"  @add="handleAdd" @edit="handleEdit" @delete="handleDelete"
-      @add-contato="handleAddContato" @edit-contato="handleEditContato" @delete-contato="handleDeleteContato" />
+
+    
+    <ClientesTable :clientes="clientes" :pages="pagesInfo" :loading="loading" @page-change="loadClientes"
+      @add="handleAdd" @edit="handleEdit" @delete="handleDelete" @add-contato="handleAddContato"
+      @edit-contato="handleEditContato" @delete-contato="handleDeleteContato" />
 
     <ClienteDialog v-model:visible="dialogVisible" :cliente="selectedCliente" :mode="dialogMode"
-      @save="handleSaveCliente" :loading="loading"/>
+      @save="handleSaveCliente" :loading="loading" />
 
     <ContatoDialog v-model:visible="contatoDialogVisible" :contato="selectedContato" :mode="contatoDialogMode"
       @save="handleSaveContato" :loading="loading" />
@@ -17,11 +19,10 @@ import { ref, onMounted } from 'vue';
 import ClientesTable from '../components/ClientesTable.vue';
 import ClienteDialog from '../components/ClienteDialog.vue';
 import ContatoDialog from '../components/ContatoDialog.vue';
-import { useToast } from 'primevue/usetoast';
+import { Button } from 'primevue';
 
 const apiBase = 'http://localhost:8000/api';
 
-const toast = useToast();
 const clientes = ref([]);
 const pagesInfo = ref({});
 const loading = ref(false);
@@ -48,13 +49,6 @@ const loadClientes = async (page = 1, rows = 5) => {
       last_page: data.meta.last_page
     };
   } catch (error) {
-    
-    toast.add({
-      severity: 'error',
-      summary: 'Erro',
-      detail: 'Erro ao carregar clientes',
-      life: 3000
-    });
   } finally {
     loading.value = false;
   }
@@ -77,20 +71,10 @@ const handleDelete = async (clienteId) => {
     await fetch(`${apiBase}/clientes/${clienteId}`, {
       method: 'DELETE'
     });
-    toast.add({
-      severity: 'success',
-      summary: 'Sucesso',
-      detail: 'Cliente excluído com sucesso',
-      life: 3000
-    });
+
     await loadClientes();
   } catch (error) {
-    toast.add({
-      severity: 'error',
-      summary: 'Erro',
-      detail: 'Erro ao excluir cliente',
-      life: 3000
-    });
+
   }
 };
 
@@ -109,23 +93,12 @@ const handleSaveCliente = async (clienteData) => {
       body: JSON.stringify(clienteData)
     });
 
-    toast.add({
-      severity: 'success',
-      summary: 'Sucesso',
-      detail: `Cliente ${dialogMode.value === 'create' ? 'criado' : 'atualizado'} com sucesso`,
-      life: 3000
-    });
+
 
     dialogVisible.value = false;
     await loadClientes();
   } catch (error) {
-    toast.add({
-      severity: 'error',
-      summary: 'Erro',
-      detail: 'Erro ao salvar cliente',
-      life: 3000
-    });
-  }finally {
+  } finally {
     loading.value = false;
   }
 };
@@ -149,20 +122,8 @@ const handleDeleteContato = async (contatoId, clienteId) => {
     await fetch(`${apiBase}/contatos/${contatoId}`, {
       method: 'DELETE'
     });
-    toast.add({
-      severity: 'success',
-      summary: 'Sucesso',
-      detail: 'Contato excluído com sucesso',
-      life: 3000
-    });
     await loadClientes();
   } catch (error) {
-    toast.add({
-      severity: 'error',
-      summary: 'Erro',
-      detail: 'Erro ao excluir contato',
-      life: 3000
-    });
   }
 };
 
@@ -185,22 +146,12 @@ const handleSaveContato = async (contatoData) => {
       body: JSON.stringify(payload)
     });
 
-    toast.add({
-      severity: 'success',
-      summary: 'Sucesso',
-      detail: `Contato ${contatoDialogMode.value === 'create' ? 'criado' : 'atualizado'} com sucesso`,
-      life: 3000
-    });
+
 
     contatoDialogVisible.value = false;
     await loadClientes();
   } catch (error) {
-    toast.add({
-      severity: 'error',
-      summary: 'Erro',
-      detail: 'Erro ao salvar contato',
-      life: 3000
-    });
+
   } finally {
     loading.value = false;
   }
