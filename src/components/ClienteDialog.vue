@@ -47,7 +47,7 @@
       <div class="flex flex-row gap-2 justify-end mt-2">
 
         <Button label="Cancelar" severity="secondary" @click="$emit('update:visible', false)" />
-        <Button label="Salvar" @click="handleSave" :loading="saving" />
+        <Button label="Salvar" @click="handleSave" :loading="props.loading" />
       </div>
     </template>
   </Dialog>
@@ -63,7 +63,8 @@ import Button from 'primevue/button';
 const props = defineProps({
   visible: Boolean,
   cliente: Object,
-  mode: String
+  mode: String,
+  loading: Boolean
 });
 
 const emit = defineEmits(['update:visible', 'save']);

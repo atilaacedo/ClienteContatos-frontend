@@ -5,10 +5,10 @@
       @add-contato="handleAddContato" @edit-contato="handleEditContato" @delete-contato="handleDeleteContato" />
 
     <ClienteDialog v-model:visible="dialogVisible" :cliente="selectedCliente" :mode="dialogMode"
-      @save="handleSaveCliente" />
+      @save="handleSaveCliente" :loading="loading"/>
 
     <ContatoDialog v-model:visible="contatoDialogVisible" :contato="selectedContato" :mode="contatoDialogMode"
-      @save="handleSaveContato" />
+      @save="handleSaveContato" :loading="loading" />
   </div>
 </template>
 
@@ -96,6 +96,7 @@ const handleDelete = async (clienteId) => {
 
 const handleSaveCliente = async (clienteData) => {
   try {
+    loading.value = true;
     const url = dialogMode.value === 'create'
       ? `${apiBase}/clientes`
       : `${apiBase}/clientes/${clienteData.id}`;
@@ -124,6 +125,8 @@ const handleSaveCliente = async (clienteData) => {
       detail: 'Erro ao salvar cliente',
       life: 3000
     });
+  }finally {
+    loading.value = false;
   }
 };
 
@@ -165,6 +168,7 @@ const handleDeleteContato = async (contatoId, clienteId) => {
 
 const handleSaveContato = async (contatoData) => {
   try {
+    loading.value = true;
     const url = contatoDialogMode.value === 'create'
       ? `${apiBase}/contatos`
       : `${apiBase}/contatos/${contatoData.id}`;
@@ -197,6 +201,8 @@ const handleSaveContato = async (contatoData) => {
       detail: 'Erro ao salvar contato',
       life: 3000
     });
+  } finally {
+    loading.value = false;
   }
 };
 
