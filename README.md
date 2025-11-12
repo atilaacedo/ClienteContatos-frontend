@@ -140,14 +140,14 @@ Modal para gestão de contatos:
 4. Adicione um ou mais telefones
 5. Clique em "Salvar"
 
-![alt text](/cliente-contato-front/screenshots/image.png)
+![alt text](/screenshots/image.png)
 
 ### Visualizar Detalhes do Cliente
 1. Clique na seta de expansão na linha do cliente
 2. Visualize todos os emails e telefones
 3. Veja os contatos associados
 
-![alt text](/cliente-contato-front/screenshots/image-1.png)
+![alt text](/screenshots/image-1.png)
 
 ### Editar Cliente
 1. Clique no ícone de lápis na linha do cliente
@@ -155,7 +155,7 @@ Modal para gestão de contatos:
 3. Adicione/remova emails e telefones
 4. Clique em "Salvar"
 
-![alt text](/cliente-contato-front/screenshots/image-2.png)
+![alt text](/screenshots/image-2.png)
 
 
 ### Excluir Cliente
@@ -163,7 +163,7 @@ Modal para gestão de contatos:
 2. Confirme a ação no diálogo
 3. O cliente e todos os seus contatos serão removidos
 
-![alt text](/cliente-contato-front/screenshots/image-3.png)
+![alt text](/screenshots/image-3.png)
 
 ### Gerenciar Contatos
 1. Expanda um cliente
@@ -172,14 +172,14 @@ Modal para gestão de contatos:
 4. O contato ficará vinculado ao cliente
 5. Use as ações de editar/excluir conforme necessário
 
-![alt text](/cliente-contato-front/screenshots/image-4.png)
+![alt text](/screenshots/image-4.png)
 
 ### Visualizar Detalhes do Contato
 1. Expanda um cliente
 2. Clique na seta de expansão na linha do contato
 3. Visualize todos os emails e telefones do contato
 
-![alt text](/cliente-contato-front/screenshots/image-5.png)
+![alt text](/screenshots/image-5.png)
 
 ## 🎨 Personalização de Tema
 
